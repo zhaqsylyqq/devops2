@@ -1,0 +1,23 @@
+#cloud-config
+
+# Create ansible user with sudo privileges (root equivalent)
+users:
+  - name: ansible
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+# Update and upgrade packages
+package_update: true
+package_upgrade: true
+
+# Configure SSH for key-based authentication only (disable password auth)
+runcmd:
+  - sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+  - sed -i 's/^#*ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - echo "Cloud-init setup complete - ansible user created with sudo privileges" > /var/log/cloud-init-complete.log

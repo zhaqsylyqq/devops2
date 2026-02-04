@@ -1,0 +1,48 @@
+- name: install rustfs
+  hosts: rustfs
+  become: true
+
+  tasks:
+#  - import_role:
+#      name: geerlingguy.docker
+
+  - name: Ensure the rustfs user exists
+    user:
+      name: rustfs
+      system: yes
+      create_home: no
+      uid: 10001
+
+  - name: Ensure rustfs user is in the docker group
+    user:
+      name: rustfs
+      groups: docker
+      append: yes
+
+  - name: Ensure the /opt/rustfs directory exists
+    ansible.builtin.file:
+      path: /opt/rustfs
+      state: directory
+      owner: rustfs
+      group: root
+      mode: '0755'
+
+  - name: Copy rustfs docker-compose files
+    ansible.builtin.copy:
+      src: ../files/rustfs/
+      dest: /opt/rustfs
+      owner: rustfs
+      mode: preserve
+
+  - name: Generate .env file from template
+    template:
+      src: ../templates/dot_env.j2
+      dest: /opt/rustfs/.env
+      owner: rustfs
+      mode: '0600'
+
+  - name: Start RustFS with docker compose
+    community.docker.docker_compose_v2:
+      project_src: /opt/rustfs
+      state: present
+    become_user: rustfs

@@ -1,0 +1,28 @@
+---
+# PostgreSQL Configuration Variables
+
+# PostgreSQL version
+postgres_version: "17"
+
+# PostgreSQL database configuration
+postgres_db_name: "myapp_db"
+postgres_db_user: "myapp_user"
+postgres_db_password: "changeme_secure_password"
+
+# PostgreSQL service configuration
+postgres_port: 5432
+postgres_listen_addresses: "localhost"
+
+# PostgreSQL data directory
+postgres_data_dir: "/var/lib/postgresql/{{ postgres_version }}/main"
+
+# PostgreSQL connection settings
+postgres_max_connections: 100
+postgres_shared_buffers: "256MB"
+
+# PostgreSQL authentication method
+postgres_auth_method: "md5"
+
+# Allow remote connections (set to true for remote access)
+postgres_allow_remote: false
+postgres_allowed_hosts: []

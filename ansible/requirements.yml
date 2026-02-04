@@ -1,0 +1,40 @@
+---
+roles:
+  - name: robertdebock.rsyslog
+    version: 4.7.3
+  - name: robertdebock.users
+    version: 6.1.5
+  - name: robertdebock.fail2ban
+    version: 5.0.4
+  - name: robertdebock.cron
+    version: 2.2.7
+  - name: robertdebock.ntp
+    version: 3.1.6
+  - name: robertdebock.bootstrap
+    version: 7.1.0
+  - name: robertdebock.locale
+    version: 3.3.10
+  - name: robertdebock.hostname
+    version: 3.1.10
+  - name: robertdebock.sysctl
+    version: 2.1.9
+  - name: geerlingguy.docker
+    version: 7.4.7
+  - name: geerlingguy.pip
+    version: 3.1.0
+  - name: robertdebock.core_dependencies
+    version: 2.2.14
+#- name: riemers.gitlab-runner
+#  version: v2.0.7
+#- name: wazuh
+#  src: https://github.com/wazuh/wazuh-ansible.git
+#  version: v4.3.5
+#- name: robertdebock.nginx
+#  version: 3.1.9
+#- name: robertdebock.certbot
+#  version: 2.2.11
+collections:
+  - name: prometheus.prometheus
+    version: 0.24.1
+  - name: community.docker
+    version: 4.6.2

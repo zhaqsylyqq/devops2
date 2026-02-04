@@ -1,0 +1,53 @@
+- name: Common tasks
+  hosts: all
+  become: true
+  tasks:
+  - name: Update APT cache
+    ansible.builtin.apt:
+      update_cache: yes
+      cache_valid_time: 3600 # Optional: Set cache validity in seconds
+  #- name: Install Python 3 and reset selection to auto
+  #  community.general.alternatives:
+  #    name: python
+  #    path: /usr/bin/python3
+  #    link: /usr/bin/python
+  - name: Install APT packages
+    ansible.builtin.apt:
+      name: "{{ apt_packages }}"
+      state: present
+  - import_role:
+      name: geerlingguy.pip
+  - import_role:
+      name: geerlingguy.docker
+  - import_role:
+      name: robertdebock.bootstrap
+  - import_role:
+      name: robertdebock.core_dependencies
+  - import_role:
+      name: robertdebock.hostname
+  - import_role:
+      name: robertdebock.users
+    tags:
+      - users
+  # - import_role:
+  #     name: robertdebock.cron
+  # - name: Remove conflicting time-daemon implementations
+  #   apt:
+  #     name:
+  #       - systemd-timesyncd
+  #       - ntpsec
+  #     state: absent
+  #   become: true
+  # - import_role:
+  #     name: robertdebock.ntp
+  - import_role:
+      name: robertdebock.locale
+  - import_role:
+      name: robertdebock.sysctl
+  - import_role:
+      name: robertdebock.rsyslog
+  - import_role:
+      name: robertdebock.fail2ban
+  - import_role:
+      name: prometheus.prometheus.node_exporter
+

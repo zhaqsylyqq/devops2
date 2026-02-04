@@ -1,0 +1,21 @@
+# List of apt packages to install
+apt_packages:
+  - rsync
+  - tmux
+
+# robertdebock.hostname
+hostname_reboot: no
+bootstrap_wait_for_host: no
+
+# robertdebock.fail2ban
+fail2ban_bantime: 600
+fail2ban_findtime: 60
+fail2ban_maxretry: 5
+fail2ban_jail_configuration:
+  - option: enabled
+    value: "true"
+    section: sshd
+
+# robertdebock.locale
+locale_lang: en_US.UTF-8
+locale_timezone: Asia/Almaty

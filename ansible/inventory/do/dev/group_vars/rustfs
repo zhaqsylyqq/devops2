@@ -1,0 +1,4 @@
+dot_env:
+  # RustFS credentials
+  RUSTFS_ACCESS_KEY: qvxIVo579B-vimBNeD1QWf1sO05_WNx4
+  RUSTFS_SECRET_KEY: PpvmeE_aoXPnjJL8ghFD5fTLs-jb77Ae

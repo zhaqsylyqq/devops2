@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  # RustFS main service
+  rustfs:
+    image: rustfs/rustfs:1.0.0-alpha.80
+    container_name: rustfs
+    user: "10001:10001"
+    security_opt:
+      - "no-new-privileges:true"
+    env_file: .env
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - RUSTFS_VOLUMES=/data/rustfs
+      - RUSTFS_ADDRESS=0.0.0.0:9000
+      - RUSTFS_CONSOLE_ADDRESS=0.0.0.0:9001
+      - RUSTFS_CONSOLE_ENABLE=true
+      - RUSTFS_EXTERNAL_ADDRESS=:9000
+      - RUSTFS_CORS_ALLOWED_ORIGINS=*
+      - RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS=*
+      - RUSTFS_OBS_LOGGER_LEVEL=info
+      # Object Cache
+      - RUSTFS_OBJECT_CACHE_ENABLE=true
+      - RUSTFS_OBJECT_CACHE_TTL_SECS=300
+    volumes:
+      - rustfs_data:/data/rustfs
+      - logs:/app/logs
+    networks:
+      - rustfs-network
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "sh", "-c",
+          "curl -f http://127.0.0.1:9000/health && curl -f http://127.0.0.1:9001/rustfs/console/health"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # RustFS volume permissions fixer service
+  volume-permission-helper:
+    image: alpine
+    volumes:
+      - rustfs_data:/data
+      - logs:/logs
+    command: >
+      sh -c "
+        chown -R 10001:10001 /data /logs &&
+        echo 'Volume Permissions fixed' &&
+        exit 0
+      "
+    restart: "no"
+
+networks:
+  rustfs-network:
+
+volumes:
+  rustfs_data:
+  logs:
