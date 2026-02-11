@@ -14,6 +14,9 @@ jobs:
 
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
-
+     
+      - name: Syntax check
+        run: ansible-playbook lab3/ansible/playbook.yml --syntax-check
+     
       - name: Run Playbook
         run: ansible-playbook -i lab3/ansible/inventory lab3/ansible/playbook.yml
