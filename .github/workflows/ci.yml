@@ -1,0 +1,47 @@
+name: CI - Kubernetes + Ansible
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Create Kubernetes cluster (kind)
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: lab2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install --upgrade pip
+          pip install ansible kubernetes
+          ansible-galaxy collection install kubernetes.core
+
+      - name: Run Ansible playbook
+        run: |
+          . .venv/bin/activate
+          cd lab2/ansible
+          ansible-playbook -i inventory playbook.yml
+
+      - name: Verify Kubernetes resources
+        run: |
+          kubectl get ns
+          kubectl -n lab2 get configmaps
+          kubectl -n lab2 get secrets
