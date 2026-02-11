@@ -1,0 +1,71 @@
+- hosts: kubelet
+  become: yes
+
+  tasks:
+
+    - name: Disable swap
+      command: swapoff -a
+
+    - name: Install containerd
+      apt:
+        name: containerd
+        state: present
+        update_cache: yes
+
+    - name: Generate containerd config
+      command: containerd config default
+      register: containerd_config
+
+    - name: Write containerd config
+      copy:
+        content: "{{ containerd_config.stdout }}"
+        dest: /etc/containerd/config.toml
+
+    - name: Enable SystemdCgroup
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
+
+    - name: Restart containerd
+      systemd:
+        name: containerd
+        state: restarted
+        enabled: yes
+
+    - name: Install kubelet and cri-tools
+      apt:
+        name:
+          - kubelet
+          - cri-tools
+        state: present
+
+    - name: Create required directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - /var/lib/kubelet
+        - /etc/kubernetes/manifests
+        - /etc/cni/net.d
+
+    - name: Deploy kubelet config
+      template:
+        src: kubelet-config.yaml.j2
+        dest: /var/lib/kubelet/config.yaml
+
+    - name: Deploy CNI config
+      template:
+        src: cni.conf.j2
+        dest: /etc/cni/net.d/10-bridge.conf
+
+    - name: Deploy static pod
+      template:
+        src: static-pod.yaml.j2
+        dest: /etc/kubernetes/manifests/app-with-db.yaml
+
+    - name: Restart kubelet
+      systemd:
+        name: kubelet
+        state: restarted
+        enabled: yes
