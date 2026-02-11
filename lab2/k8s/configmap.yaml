@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config
+  namespace: lab2
+data:
+  env: dev
+  loglevel: debug
+
