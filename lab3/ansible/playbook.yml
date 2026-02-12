@@ -12,6 +12,12 @@
         state: present
         update_cache: yes
 
+    - name: Ensure /etc/containerd exists
+      file:
+        path: /etc/containerd
+        state: directory
+
+
     - name: Generate containerd config
       command: containerd config default
       register: containerd_config
@@ -33,6 +39,39 @@
         state: restarted
         enabled: yes
 
+    - name: Install required packages for Kubernetes repo
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gpg
+        state: present
+        update_cache: yes
+
+    - name: Ensure keyrings directory exists
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+
+    - name: Add Kubernetes GPG key
+      shell: >
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key |
+        gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      args:
+        creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: Add Kubernetes apt repository
+      copy:
+        dest: /etc/apt/sources.list.d/kubernetes.list
+        content: |
+          deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /
+
+    - name: Update apt cache after adding Kubernetes repo
+      apt:
+        update_cache: yes
+
+
     - name: Install kubelet and cri-tools
       apt:
         name:
@@ -53,6 +92,28 @@
       template:
         src: kubelet-config.yaml.j2
         dest: /var/lib/kubelet/config.yaml
+
+    - name: Ensure kubelet systemd override directory exists
+      file:
+        path: /etc/systemd/system/kubelet.service.d
+        state: directory
+
+    - name: Configure kubelet systemd override
+      copy:
+        dest: /etc/systemd/system/kubelet.service.d/override.conf
+        content: |
+          [Service]
+          ExecStart=
+          ExecStart=/usr/bin/kubelet --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///run/containerd/containerd.sock
+
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    - name: Restart kubelet
+      systemd:
+        name: kubelet
+        state: restarted
+        enabled: yes
 
     - name: Deploy CNI config
       template:
