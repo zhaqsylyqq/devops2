@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lab4-bu
+  labels:
+    app: lab4
+spec:
+  volumes:
+    - name: web
+      emptyDir: {}
+
+  containers:
+    - name: nginx
+      image: nginx:stable-alpine
+      ports:
+        - containerPort: 80
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      volumeMounts:
+        - name: web
+          mountPath: /usr/share/nginx/html
+
+    - name: scraper
+      image: zhaxylyk06/lab4-scraper:stable
+      imagePullPolicy: Always
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      volumeMounts:
+        - name: web
+          mountPath: /data

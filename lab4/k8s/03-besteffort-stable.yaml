@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lab4-be
+spec:
+  volumes:
+    - name: web
+      emptyDir: {}
+  containers:
+    - name: nginx
+      image: nginx:stable-alpine
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: web
+          mountPath: /usr/share/nginx/html
+    - name: scraper
+      image: zhaxylyk06/lab4-scraper:stable
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: web
+          mountPath: /data
