@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo "=== Deploying hardened pod ==="
-kubectl apply -f hardened-ubuntu.yaml
-
-sleep 5
-
 echo "=== Checking token directory ==="
 kubectl exec hardened-ubuntu -- ls /var/run/secrets/kubernetes.io/serviceaccount \
   || echo "✅ No service account token mounted"

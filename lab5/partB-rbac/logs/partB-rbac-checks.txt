@@ -6,7 +6,7 @@ Warning: resource 'namespaces' is not namespace scoped
 
 yes
 
-== dev create ns (should be Forbidden) ==
+== dev create ns (Forbidden expected) ==
 Error from server (Forbidden): namespaces is forbidden: User "dev-user" cannot create resource "namespaces" in API group "" at the cluster scope
 
 == admin create+delete ns (should work) ==

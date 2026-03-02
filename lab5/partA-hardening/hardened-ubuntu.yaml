@@ -26,8 +26,6 @@ spec:
       volumeMounts:
         - name: tmp
           mountPath: /tmp
-        - name: apt
-          mountPath: /var/lib/apt/lists
   volumes:
     - name: tmp
       emptyDir: {}

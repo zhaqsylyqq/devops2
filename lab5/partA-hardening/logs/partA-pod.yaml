@@ -4,14 +4,14 @@ metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
       {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"hardened-ubuntu"},"name":"hardened-ubuntu","namespace":"default"},"spec":{"automountServiceAccountToken":false,"containers":[{"command":["bash","-lc","sleep infinity"],"image":"ubuntu:24.04","name":"ubuntu","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true},"volumeMounts":[{"mountPath":"/tmp","name":"tmp"},{"mountPath":"/var/lib/apt/lists","name":"apt"}]}],"securityContext":{"fsGroup":2000,"runAsGroup":3000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}},"volumes":[{"emptyDir":{},"name":"tmp"},{"emptyDir":{},"name":"apt"}]}}
-  creationTimestamp: "2026-03-02T09:11:45Z"
+  creationTimestamp: "2026-03-02T14:56:06Z"
   generation: 1
   labels:
     app: hardened-ubuntu
   name: hardened-ubuntu
   namespace: default
-  resourceVersion: "1036"
-  uid: f83657b0-efdf-406e-897e-22faf50009e2
+  resourceVersion: "432"
+  uid: 42f8c957-18cc-475c-be93-9b2b9f0f67a7
 spec:
   automountServiceAccountToken: false
   containers:
@@ -71,32 +71,32 @@ spec:
 status:
   conditions:
   - lastProbeTime: null
-    lastTransitionTime: "2026-03-02T09:11:55Z"
+    lastTransitionTime: "2026-03-02T14:56:18Z"
     observedGeneration: 1
     status: "True"
     type: PodReadyToStartContainers
   - lastProbeTime: null
-    lastTransitionTime: "2026-03-02T09:11:45Z"
+    lastTransitionTime: "2026-03-02T14:56:06Z"
     observedGeneration: 1
     status: "True"
     type: Initialized
   - lastProbeTime: null
-    lastTransitionTime: "2026-03-02T09:11:55Z"
+    lastTransitionTime: "2026-03-02T14:56:18Z"
     observedGeneration: 1
     status: "True"
     type: Ready
   - lastProbeTime: null
-    lastTransitionTime: "2026-03-02T09:11:55Z"
+    lastTransitionTime: "2026-03-02T14:56:18Z"
     observedGeneration: 1
     status: "True"
     type: ContainersReady
   - lastProbeTime: null
-    lastTransitionTime: "2026-03-02T09:11:45Z"
+    lastTransitionTime: "2026-03-02T14:56:06Z"
     observedGeneration: 1
     status: "True"
     type: PodScheduled
   containerStatuses:
-  - containerID: docker://e56b7b861ae6a717220d9334f72ad29abf9fa3a76949945a25f0de4e69d7f922
+  - containerID: docker://9de7483f4a4d4680edaa9a12045f6dac018e875465d3497c8e4381f417f13eb8
     image: ubuntu:24.04
     imageID: docker-pullable://ubuntu@sha256:d1e2e92c075e5ca139d51a140fff46f84315c0fdce203eab2807c7e495eff4f9
     lastState: {}
@@ -107,7 +107,7 @@ status:
     started: true
     state:
       running:
-        startedAt: "2026-03-02T09:11:55Z"
+        startedAt: "2026-03-02T14:56:17Z"
     volumeMounts:
     - mountPath: /tmp
       name: tmp
@@ -118,8 +118,8 @@ status:
   - ip: 192.168.49.2
   observedGeneration: 1
   phase: Running
-  podIP: 10.244.0.4
+  podIP: 10.244.0.3
   podIPs:
-  - ip: 10.244.0.4
+  - ip: 10.244.0.3
   qosClass: BestEffort
-  startTime: "2026-03-02T09:11:45Z"
+  startTime: "2026-03-02T14:56:06Z"
