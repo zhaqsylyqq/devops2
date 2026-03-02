@@ -1,0 +1,60 @@
+Name:             hardened-ubuntu
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Mon, 02 Mar 2026 14:11:45 +0500
+Labels:           app=hardened-ubuntu
+Annotations:      <none>
+Status:           Running
+SeccompProfile:   RuntimeDefault
+IP:               10.244.0.4
+IPs:
+  IP:  10.244.0.4
+Containers:
+  ubuntu:
+    Container ID:  docker://e56b7b861ae6a717220d9334f72ad29abf9fa3a76949945a25f0de4e69d7f922
+    Image:         ubuntu:24.04
+    Image ID:      docker-pullable://ubuntu@sha256:d1e2e92c075e5ca139d51a140fff46f84315c0fdce203eab2807c7e495eff4f9
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      bash
+      -lc
+      sleep infinity
+    State:          Running
+      Started:      Mon, 02 Mar 2026 14:11:55 +0500
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /tmp from tmp (rw)
+      /var/lib/apt/lists from apt (rw)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  tmp:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  apt:
+    Type:        EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:      
+    SizeLimit:   <unset>
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                 node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  10s   default-scheduler  Successfully assigned default/hardened-ubuntu to minikube
+  Normal  Pulling    10s   kubelet            Pulling image "ubuntu:24.04"
+  Normal  Pulled     0s    kubelet            Successfully pulled image "ubuntu:24.04" in 9.677s (9.677s including waiting). Image size: 78129634 bytes.
+  Normal  Created    0s    kubelet            Container created
+  Normal  Started    0s    kubelet            Container started

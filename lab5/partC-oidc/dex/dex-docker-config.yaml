@@ -1,0 +1,34 @@
+issuer: https://dex:5556/dex
+
+storage:
+  type: memory
+
+web:
+  https: 0.0.0.0:5556
+  tlsCert: /etc/dex/tls/dex.crt
+  tlsKey: /etc/dex/tls/dex.key
+
+staticClients:
+- id: kubernetes
+  name: Kubernetes
+  secret: kubernetes-secret
+  redirectURIs:
+  - http://localhost:8000/callback
+
+enablePasswordDB: true
+
+# password: "password"
+staticPasswords:
+- email: dev@example.com
+  username: dev
+  userID: "10001"
+  hash: "$2y$12$CwTycUXWue0Thq9StjUM0uJ8vKQ0pN0E2dZbTz3P0m0B4e7n1Qq2a"
+  groups:
+  - devs
+
+- email: admin@example.com
+  username: admin
+  userID: "10002"
+  hash: "$2y$12$CwTycUXWue0Thq9StjUM0uJ8vKQ0pN0E2dZbTz3P0m0B4e7n1Qq2a"
+  groups:
+  - admins

@@ -35,7 +35,7 @@ spec:
         failureThreshold: 3
 
     - name: scraper
-      image: zhaxylyk06/lab4-scraper:lab4
+      image: zhaxylyk06/lab4-scraper:stable
       imagePullPolicy: Always
       volumeMounts:
         - name: web

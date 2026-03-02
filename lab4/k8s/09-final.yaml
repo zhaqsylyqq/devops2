@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lab4-final
+  namespace: lab4
+  labels:
+    app: lab4-final
+spec:
+  volumes:
+    - name: web
+      emptyDir: {}
+  containers:
+    - name: nginx
+      image: nginx:stable-alpine
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: web
+          mountPath: /usr/share/nginx/html
+      readinessProbe:
+        httpGet:
+          path: /index.html
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 3
+        timeoutSeconds: 1
+        failureThreshold: 3
+      livenessProbe:
+        httpGet:
+          path: /index.html
+          port: 80
+        initialDelaySeconds: 20
+        periodSeconds: 10
+        timeoutSeconds: 1
+        failureThreshold: 3
+
+    - name: scraper
+      image: zhaxylyk06/lab4-scraper:stable
+      imagePullPolicy: Always
+      command: ["sh", "-c"]
+      args:
+        - |
+          set -u
+          URL="https://raw.githubusercontent.com/zhaqsylyqq/devops2/main/lab4/lab4-content/current.html"
+          OUT="/data/index.html"
+          while true; do
+            if curl -fsSL "$URL" -o "$OUT"; then
+              echo "[scraper] updated $(date)"
+            else
+              echo "[scraper] fetch failed"
+            fi
+            sleep 5
+          done
+      volumeMounts:
+        - name: web
+          mountPath: /data
+      readinessProbe:
+        exec:
+          command: ["sh", "-c", "test -s /data/index.html"]
+        initialDelaySeconds: 5
+        periodSeconds: 3
+        timeoutSeconds: 1
+        failureThreshold: 5
+      livenessProbe:
+        exec:
+          command: ["sh", "-c", "test -s /data/index.html"]
+        initialDelaySeconds: 20
+        periodSeconds: 10
+        timeoutSeconds: 1
+        failureThreshold: 3

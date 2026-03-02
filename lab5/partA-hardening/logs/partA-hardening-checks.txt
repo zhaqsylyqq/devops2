@@ -1,0 +1,72 @@
+=== Pod describe ===
+Name:             hardened-ubuntu
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Mon, 02 Mar 2026 14:04:08 +0500
+Labels:           app=hardened
+Annotations:      <none>
+Status:           Running
+SeccompProfile:   RuntimeDefault
+IP:               10.244.0.3
+IPs:
+  IP:  10.244.0.3
+Containers:
+  ubuntu:
+    Container ID:  docker://d2eccbabe4e26098b382fd03153b67255143acd90aea9061b4642d635356188d
+    Image:         ubuntu:22.04
+    Image ID:      docker-pullable://ubuntu@sha256:3ba65aa20f86a0fad9df2b2c259c613df006b2e6d0bfcc8a146afb8c525a9751
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      bash
+      -lc
+      sleep infinity
+    State:          Running
+      Started:      Mon, 02 Mar 2026 14:04:17 +0500
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:         <none>
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:                      <none>
+QoS Class:                    BestEffort
+Node-Selectors:               <none>
+Tolerations:                  node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  75s   default-scheduler  Successfully assigned default/hardened-ubuntu to minikube
+  Normal  Pulling    74s   kubelet            Pulling image "ubuntu:22.04"
+  Normal  Pulled     66s   kubelet            Successfully pulled image "ubuntu:22.04" in 10.576s (10.576s including waiting). Image size: 77872088 bytes.
+  Normal  Created    66s   kubelet            Container created
+  Normal  Started    66s   kubelet            Container started
+
+=== Checking token directory ===
+ls: cannot access '/var/run/secrets/kubernetes.io/serviceaccount': No such file or directory
+command terminated with exit code 2
+
+=== Checking user identity ===
+uid=1000 gid=3000 groups=3000,2000
+whoami: cannot find name for user ID 1000
+command terminated with exit code 1
+
+=== Attempting apt update (should fail) ===
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+E: List directory /var/lib/apt/lists/partial is missing. - Acquire (30: Read-only file system)
+command terminated with exit code 100
+
+=== Attempting privilege escalation (should fail) ===
+Password: su: Authentication failure
+command terminated with exit code 1

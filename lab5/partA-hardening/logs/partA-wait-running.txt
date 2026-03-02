@@ -1,0 +1,2 @@
+NAME              READY   STATUS    RESTARTS   AGE
+hardened-ubuntu   1/1     Running   0          29m

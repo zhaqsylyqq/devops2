@@ -1,0 +1,13 @@
+== dev can-i create namespaces ==
+Warning: resource 'namespaces' is not namespace scoped
+
+no
+== admin can-i create namespaces ==
+Warning: resource 'namespaces' is not namespace scoped
+
+yes
+== dev create ns (should be forbidden) ==
+Error from server (Forbidden): namespaces is forbidden: User "dev-user" cannot create resource "namespaces" in API group "" at the cluster scope
+== admin create/delete ns (should work) ==
+namespace/test-admin created
+namespace "test-admin" deleted
