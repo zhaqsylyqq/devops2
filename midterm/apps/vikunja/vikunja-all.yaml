@@ -1,0 +1,780 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: bbe099146463a62b5bdaddb9e9b0b3f686d7eefb3b10315d81a129030e40a545
+      cni.projectcalico.org/podIP: 192.168.190.86/32
+      cni.projectcalico.org/podIPs: 192.168.190.86/32
+    creationTimestamp: "2026-03-04T20:21:12Z"
+    generateName: postgres-6778bb688f-
+    labels:
+      app: postgres
+      pod-template-hash: 6778bb688f
+    name: postgres-6778bb688f-5zpbz
+    namespace: vikunja
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: postgres-6778bb688f
+      uid: 9b217179-94e5-4b7f-87bf-7dbdba413974
+    resourceVersion: "41079"
+    uid: db2dfc4f-7baa-47f7-b499-f53114f9f0f3
+  spec:
+    containers:
+    - env:
+      - name: POSTGRES_DB
+        valueFrom:
+          secretKeyRef:
+            key: POSTGRES_DB
+            name: vikunja-db-secret
+      - name: POSTGRES_USER
+        valueFrom:
+          secretKeyRef:
+            key: POSTGRES_USER
+            name: vikunja-db-secret
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: POSTGRES_PASSWORD
+            name: vikunja-db-secret
+      - name: PGDATA
+        value: /var/lib/postgresql/data/pgdata
+      image: postgres:15
+      imagePullPolicy: IfNotPresent
+      name: postgres
+      ports:
+      - containerPort: 5432
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/postgresql/data
+        name: postgres-storage
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5pw65
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: w1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: postgres-storage
+      persistentVolumeClaim:
+        claimName: postgres-data
+    - name: kube-api-access-5pw65
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:21:16Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:21:12Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:21:16Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:21:16Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:21:12Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://e03c083adc3d7d565d6713a898c37bb6486565a9b515fdceb829733168b27a06
+      image: docker.io/library/postgres:15
+      imageID: docker.io/library/postgres@sha256:f30e3de0ac9cc938dac627ef2231099867c694b5f949fadb924c8c977428c399
+      lastState: {}
+      name: postgres
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T20:21:15Z"
+    hostIP: 10.114.0.5
+    hostIPs:
+    - ip: 10.114.0.5
+    phase: Running
+    podIP: 192.168.190.86
+    podIPs:
+    - ip: 192.168.190.86
+    qosClass: BestEffort
+    startTime: "2026-03-04T20:21:12Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: d997eb5e6d6f515002a9035bb3bfff95ce09d37ea9ff1a687788f1bfa48a9baa
+      cni.projectcalico.org/podIP: 192.168.190.89/32
+      cni.projectcalico.org/podIPs: 192.168.190.89/32
+    creationTimestamp: "2026-03-04T20:36:20Z"
+    generateName: vikunja-5f64f7b47c-
+    labels:
+      app: vikunja
+      pod-template-hash: 5f64f7b47c
+    name: vikunja-5f64f7b47c-mfwts
+    namespace: vikunja
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vikunja-5f64f7b47c
+      uid: 388f8bf4-165b-4635-8fe9-b921efe07dfe
+    resourceVersion: "44523"
+    uid: 45f3fbd9-f8ba-4dd5-8772-6ff0371f5581
+  spec:
+    containers:
+    - env:
+      - name: VIKUNJA_DATABASE_TYPE
+        value: postgres
+      - name: VIKUNJA_DATABASE_HOST
+        value: postgres:5432
+      - name: VIKUNJA_DATABASE_DATABASE
+        valueFrom:
+          secretKeyRef:
+            key: POSTGRES_DB
+            name: vikunja-db-secret
+      - name: VIKUNJA_DATABASE_USER
+        valueFrom:
+          secretKeyRef:
+            key: POSTGRES_USER
+            name: vikunja-db-secret
+      - name: VIKUNJA_DATABASE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: POSTGRES_PASSWORD
+            name: vikunja-db-secret
+      - name: VIKUNJA_DATABASE_SSLMODE
+        value: disable
+      - name: VIKUNJA_SERVICE_PUBLICURL
+        value: http://104.248.100.26
+      - name: VIKUNJA_SERVICE_JWTSECRET
+        valueFrom:
+          secretKeyRef:
+            key: VIKUNJA_SERVICE_JWTSECRET
+            name: vikunja-secret
+      - name: VIKUNJA_SERVICE_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: VIKUNJA_SERVICE_SECRET
+            name: vikunja-secret
+      - name: XDG_CACHE_HOME
+        value: /tmp
+      image: vikunja/vikunja:latest
+      imagePullPolicy: Always
+      name: vikunja
+      ports:
+      - containerPort: 3456
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /app/vikunja/files
+        name: files
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-h9dm9
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: w1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: files
+      persistentVolumeClaim:
+        claimName: vikunja-files
+    - name: kube-api-access-h9dm9
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:36:25Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:36:21Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:36:25Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:36:25Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:36:21Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://ee5430b5afa2280f5dceed50a19c2a6adfc99e6c701e5a8e7a36d616a04bae70
+      image: docker.io/vikunja/vikunja:latest
+      imageID: docker.io/vikunja/vikunja@sha256:f13103b0287aef74a69241fa46e6cac76e14caf643602144ccaca57fc76e587f
+      lastState: {}
+      name: vikunja
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T20:36:25Z"
+    hostIP: 10.114.0.5
+    hostIPs:
+    - ip: 10.114.0.5
+    phase: Running
+    podIP: 192.168.190.89
+    podIPs:
+    - ip: 192.168.190.89
+    qosClass: BestEffort
+    startTime: "2026-03-04T20:36:21Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"postgres","namespace":"vikunja"},"spec":{"ports":[{"port":5432,"targetPort":5432}],"selector":{"app":"postgres"}}}
+    creationTimestamp: "2026-03-04T20:15:58Z"
+    name: postgres
+    namespace: vikunja
+    resourceVersion: "39783"
+    uid: e676a3e2-8b3e-4317-a40a-dfae69a5a879
+  spec:
+    clusterIP: 10.109.111.81
+    clusterIPs:
+    - 10.109.111.81
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      app: postgres
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"vikunja","namespace":"vikunja"},"spec":{"ports":[{"port":80,"targetPort":3456}],"selector":{"app":"vikunja"}}}
+    creationTimestamp: "2026-03-04T20:26:03Z"
+    name: vikunja
+    namespace: vikunja
+    resourceVersion: "42230"
+    uid: 48a15b77-c748-4d08-bffc-37fc30b41beb
+  spec:
+    clusterIP: 10.108.37.18
+    clusterIPs:
+    - 10.108.37.18
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3456
+    selector:
+      app: vikunja
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"vikunja-api","namespace":"vikunja"},"spec":{"ports":[{"name":"http","port":80,"targetPort":3456}],"selector":{"app":"vikunja-api"}}}
+    creationTimestamp: "2026-03-04T20:23:09Z"
+    name: vikunja-api
+    namespace: vikunja
+    resourceVersion: "41499"
+    uid: 407c7dbb-8718-40b4-a3c0-3e495873ec59
+  spec:
+    clusterIP: 10.107.68.46
+    clusterIPs:
+    - 10.107.68.46
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3456
+    selector:
+      app: vikunja-api
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"postgres","namespace":"vikunja"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"postgres"}},"template":{"metadata":{"labels":{"app":"postgres"}},"spec":{"containers":[{"env":[{"name":"POSTGRES_DB","valueFrom":{"secretKeyRef":{"key":"POSTGRES_DB","name":"vikunja-db-secret"}}},{"name":"POSTGRES_USER","valueFrom":{"secretKeyRef":{"key":"POSTGRES_USER","name":"vikunja-db-secret"}}},{"name":"POSTGRES_PASSWORD","valueFrom":{"secretKeyRef":{"key":"POSTGRES_PASSWORD","name":"vikunja-db-secret"}}},{"name":"PGDATA","value":"/var/lib/postgresql/data/pgdata"}],"image":"postgres:15","name":"postgres","ports":[{"containerPort":5432}],"volumeMounts":[{"mountPath":"/var/lib/postgresql/data","name":"postgres-storage"}]}],"volumes":[{"name":"postgres-storage","persistentVolumeClaim":{"claimName":"postgres-data"}}]}}}}
+    creationTimestamp: "2026-03-04T20:21:12Z"
+    generation: 1
+    name: postgres
+    namespace: vikunja
+    resourceVersion: "41084"
+    uid: 00c0841f-28c1-462e-a72b-1c19d58b6cb9
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgres
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_DB
+                name: vikunja-db-secret
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: vikunja-db-secret
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: vikunja-db-secret
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-04T20:21:16Z"
+      lastUpdateTime: "2026-03-04T20:21:16Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-03-04T20:21:12Z"
+      lastUpdateTime: "2026-03-04T20:21:16Z"
+      message: ReplicaSet "postgres-6778bb688f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"vikunja","namespace":"vikunja"},"spec":{"replicas":2,"selector":{"matchLabels":{"app":"vikunja"}},"template":{"metadata":{"labels":{"app":"vikunja"}},"spec":{"containers":[{"env":[{"name":"VIKUNJA_DATABASE_TYPE","value":"postgres"},{"name":"VIKUNJA_DATABASE_HOST","value":"postgres:5432"},{"name":"VIKUNJA_DATABASE_DATABASE","valueFrom":{"secretKeyRef":{"key":"POSTGRES_DB","name":"vikunja-db-secret"}}},{"name":"VIKUNJA_DATABASE_USER","valueFrom":{"secretKeyRef":{"key":"POSTGRES_USER","name":"vikunja-db-secret"}}},{"name":"VIKUNJA_DATABASE_PASSWORD","valueFrom":{"secretKeyRef":{"key":"POSTGRES_PASSWORD","name":"vikunja-db-secret"}}},{"name":"VIKUNJA_DATABASE_SSLMODE","value":"disable"},{"name":"VIKUNJA_SERVICE_PUBLICURL","value":"http://104.248.100.26"},{"name":"VIKUNJA_SERVICE_JWTSECRET","valueFrom":{"secretKeyRef":{"key":"VIKUNJA_SERVICE_JWTSECRET","name":"vikunja-secret"}}},{"name":"VIKUNJA_SERVICE_SECRET","valueFrom":{"secretKeyRef":{"key":"VIKUNJA_SERVICE_SECRET","name":"vikunja-secret"}}},{"name":"XDG_CACHE_HOME","value":"/tmp"}],"image":"vikunja/vikunja:latest","name":"vikunja","ports":[{"containerPort":3456}],"volumeMounts":[{"mountPath":"/app/vikunja/files","name":"files"}]}],"securityContext":{"fsGroup":1000},"volumes":[{"name":"files","persistentVolumeClaim":{"claimName":"vikunja-files"}}]}}}}
+    creationTimestamp: "2026-03-04T20:36:20Z"
+    generation: 2
+    name: vikunja
+    namespace: vikunja
+    resourceVersion: "45627"
+    uid: 4e3e5319-575c-44ed-9411-395af8486272
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vikunja
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vikunja
+      spec:
+        containers:
+        - env:
+          - name: VIKUNJA_DATABASE_TYPE
+            value: postgres
+          - name: VIKUNJA_DATABASE_HOST
+            value: postgres:5432
+          - name: VIKUNJA_DATABASE_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_DB
+                name: vikunja-db-secret
+          - name: VIKUNJA_DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: vikunja-db-secret
+          - name: VIKUNJA_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: vikunja-db-secret
+          - name: VIKUNJA_DATABASE_SSLMODE
+            value: disable
+          - name: VIKUNJA_SERVICE_PUBLICURL
+            value: http://104.248.100.26
+          - name: VIKUNJA_SERVICE_JWTSECRET
+            valueFrom:
+              secretKeyRef:
+                key: VIKUNJA_SERVICE_JWTSECRET
+                name: vikunja-secret
+          - name: VIKUNJA_SERVICE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: VIKUNJA_SERVICE_SECRET
+                name: vikunja-secret
+          - name: XDG_CACHE_HOME
+            value: /tmp
+          image: vikunja/vikunja:latest
+          imagePullPolicy: Always
+          name: vikunja
+          ports:
+          - containerPort: 3456
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/vikunja/files
+            name: files
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1000
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: files
+          persistentVolumeClaim:
+            claimName: vikunja-files
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-04T20:42:12Z"
+      lastUpdateTime: "2026-03-04T20:42:12Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-03-04T20:36:20Z"
+      lastUpdateTime: "2026-03-04T20:42:12Z"
+      message: ReplicaSet "vikunja-5f64f7b47c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-04T20:21:12Z"
+    generation: 1
+    labels:
+      app: postgres
+      pod-template-hash: 6778bb688f
+    name: postgres-6778bb688f
+    namespace: vikunja
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: postgres
+      uid: 00c0841f-28c1-462e-a72b-1c19d58b6cb9
+    resourceVersion: "41081"
+    uid: 9b217179-94e5-4b7f-87bf-7dbdba413974
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: postgres
+        pod-template-hash: 6778bb688f
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+          pod-template-hash: 6778bb688f
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_DB
+                name: vikunja-db-secret
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: vikunja-db-secret
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: vikunja-db-secret
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-data
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-04T20:36:20Z"
+    generation: 2
+    labels:
+      app: vikunja
+      pod-template-hash: 5f64f7b47c
+    name: vikunja-5f64f7b47c
+    namespace: vikunja
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vikunja
+      uid: 4e3e5319-575c-44ed-9411-395af8486272
+    resourceVersion: "45626"
+    uid: 388f8bf4-165b-4635-8fe9-b921efe07dfe
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: vikunja
+        pod-template-hash: 5f64f7b47c
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vikunja
+          pod-template-hash: 5f64f7b47c
+      spec:
+        containers:
+        - env:
+          - name: VIKUNJA_DATABASE_TYPE
+            value: postgres
+          - name: VIKUNJA_DATABASE_HOST
+            value: postgres:5432
+          - name: VIKUNJA_DATABASE_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_DB
+                name: vikunja-db-secret
+          - name: VIKUNJA_DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: vikunja-db-secret
+          - name: VIKUNJA_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: vikunja-db-secret
+          - name: VIKUNJA_DATABASE_SSLMODE
+            value: disable
+          - name: VIKUNJA_SERVICE_PUBLICURL
+            value: http://104.248.100.26
+          - name: VIKUNJA_SERVICE_JWTSECRET
+            valueFrom:
+              secretKeyRef:
+                key: VIKUNJA_SERVICE_JWTSECRET
+                name: vikunja-secret
+          - name: VIKUNJA_SERVICE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: VIKUNJA_SERVICE_SECRET
+                name: vikunja-secret
+          - name: XDG_CACHE_HOME
+            value: /tmp
+          image: vikunja/vikunja:latest
+          imagePullPolicy: Always
+          name: vikunja
+          ports:
+          - containerPort: 3456
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/vikunja/files
+            name: files
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1000
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: files
+          persistentVolumeClaim:
+            claimName: vikunja-files
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

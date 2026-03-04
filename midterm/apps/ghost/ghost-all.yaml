@@ -1,0 +1,757 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 78562e9c40c11b94c9868042935f62dcf2cceefe35c1c989e0e46d921c90a516
+      cni.projectcalico.org/podIP: 192.168.80.207/32
+      cni.projectcalico.org/podIPs: 192.168.80.207/32
+    creationTimestamp: "2026-03-04T20:57:47Z"
+    generateName: ghost-685f4dff-
+    labels:
+      app: ghost
+      pod-template-hash: 685f4dff
+    name: ghost-685f4dff-sgxnx
+    namespace: ghost
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: ghost-685f4dff
+      uid: 7e73c08a-4be7-47db-aace-0a8c535197e2
+    resourceVersion: "49011"
+    uid: 03febe73-90d5-47b0-b4a4-8a18bf9141df
+  spec:
+    containers:
+    - env:
+      - name: url
+        value: http://ghost.104.248.100.26.nip.io
+      - name: database__client
+        value: mysql
+      - name: database__connection__host
+        value: mysql
+      - name: database__connection__user
+        valueFrom:
+          secretKeyRef:
+            key: mysql-user
+            name: ghost-mysql
+      - name: database__connection__password
+        valueFrom:
+          secretKeyRef:
+            key: mysql-password
+            name: ghost-mysql
+      - name: database__connection__database
+        valueFrom:
+          secretKeyRef:
+            key: mysql-database
+            name: ghost-mysql
+      image: ghost:5
+      imagePullPolicy: IfNotPresent
+      name: ghost
+      ports:
+      - containerPort: 2368
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 768Mi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/ghost/content
+        name: content
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2bqnk
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: w2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: content
+      persistentVolumeClaim:
+        claimName: ghost-content
+    - name: kube-api-access-2bqnk
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:58:41Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:57:52Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:58:41Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:58:41Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:57:52Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://a71a7be93fa04a42cd64b0bf57d5168c46bd397777c236686c8ffb0bc50e2488
+      image: docker.io/library/ghost:5
+      imageID: docker.io/library/ghost@sha256:3ffcb8f2f1f808806e7a0f694a2b130cd78652a26b4337b33fe7e249ce58665a
+      lastState: {}
+      name: ghost
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T20:58:40Z"
+    hostIP: 10.114.0.6
+    hostIPs:
+    - ip: 10.114.0.6
+    phase: Running
+    podIP: 192.168.80.207
+    podIPs:
+    - ip: 192.168.80.207
+    qosClass: Burstable
+    startTime: "2026-03-04T20:57:52Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 0ae14639dea2dbbb2049ef29601057fdc1400c54ca7dfd0918e63b6a8cf7bc9d
+      cni.projectcalico.org/podIP: 192.168.80.206/32
+      cni.projectcalico.org/podIPs: 192.168.80.206/32
+    creationTimestamp: "2026-03-04T20:52:50Z"
+    generateName: mysql-54cdc4cf55-
+    labels:
+      app: mysql
+      pod-template-hash: 54cdc4cf55
+    name: mysql-54cdc4cf55-m2qvk
+    namespace: ghost
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: mysql-54cdc4cf55
+      uid: 72fa4bda-7bc9-4639-bc7b-3654329baf2c
+    resourceVersion: "47873"
+    uid: ba021e3e-a37a-46bd-819a-c6589c13831c
+  spec:
+    containers:
+    - env:
+      - name: MYSQL_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: mysql-root-password
+            name: ghost-mysql
+      - name: MYSQL_DATABASE
+        valueFrom:
+          secretKeyRef:
+            key: mysql-database
+            name: ghost-mysql
+      - name: MYSQL_USER
+        valueFrom:
+          secretKeyRef:
+            key: mysql-user
+            name: ghost-mysql
+      - name: MYSQL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: mysql-password
+            name: ghost-mysql
+      image: mysql:8.0
+      imagePullPolicy: IfNotPresent
+      name: mysql
+      ports:
+      - containerPort: 3306
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-4m8k5
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: w2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 999
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: mysql-data
+    - name: kube-api-access-4m8k5
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:53:31Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:52:54Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:53:31Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:53:31Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T20:52:54Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://8f0566099b070f22d1ef76ff74e8f024af98a36481508f8d7f7485d83c1958aa
+      image: docker.io/library/mysql:8.0
+      imageID: docker.io/library/mysql@sha256:a3dff78d876222746a0bacc36dd7e4bf9e673c85fb7ee0d12ed25bd32c43c19b
+      lastState: {}
+      name: mysql
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T20:53:30Z"
+    hostIP: 10.114.0.6
+    hostIPs:
+    - ip: 10.114.0.6
+    phase: Running
+    podIP: 192.168.80.206
+    podIPs:
+    - ip: 192.168.80.206
+    qosClass: Burstable
+    startTime: "2026-03-04T20:52:54Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"ghost","namespace":"ghost"},"spec":{"ports":[{"port":80,"targetPort":2368}],"selector":{"app":"ghost"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-03-04T20:57:47Z"
+    name: ghost
+    namespace: ghost
+    resourceVersion: "48727"
+    uid: 83bf92cc-bed9-448c-92c2-7a3e005c74ff
+  spec:
+    clusterIP: 10.110.187.45
+    clusterIPs:
+    - 10.110.187.45
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 2368
+    selector:
+      app: ghost
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"mysql","namespace":"ghost"},"spec":{"ports":[{"name":"mysql","port":3306,"targetPort":3306}],"selector":{"app":"mysql"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-03-04T20:52:50Z"
+    name: mysql
+    namespace: ghost
+    resourceVersion: "47640"
+    uid: 3d99c69a-970b-499d-94c8-57e77829d9cf
+  spec:
+    clusterIP: 10.101.234.81
+    clusterIPs:
+    - 10.101.234.81
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      app: mysql
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"ghost","namespace":"ghost"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ghost"}},"template":{"metadata":{"labels":{"app":"ghost"}},"spec":{"containers":[{"env":[{"name":"url","value":"http://ghost.104.248.100.26.nip.io"},{"name":"database__client","value":"mysql"},{"name":"database__connection__host","value":"mysql"},{"name":"database__connection__user","valueFrom":{"secretKeyRef":{"key":"mysql-user","name":"ghost-mysql"}}},{"name":"database__connection__password","valueFrom":{"secretKeyRef":{"key":"mysql-password","name":"ghost-mysql"}}},{"name":"database__connection__database","valueFrom":{"secretKeyRef":{"key":"mysql-database","name":"ghost-mysql"}}}],"image":"ghost:5","name":"ghost","ports":[{"containerPort":2368}],"resources":{"limits":{"cpu":"500m","memory":"768Mi"},"requests":{"cpu":"100m","memory":"256Mi"}},"volumeMounts":[{"mountPath":"/var/lib/ghost/content","name":"content"}]}],"securityContext":{"fsGroup":1000},"volumes":[{"name":"content","persistentVolumeClaim":{"claimName":"ghost-content"}}]}}}}
+    creationTimestamp: "2026-03-04T20:57:47Z"
+    generation: 1
+    name: ghost
+    namespace: ghost
+    resourceVersion: "49016"
+    uid: 2baec4a6-934b-4829-b4f9-030b83ae6d6d
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: ghost
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ghost
+      spec:
+        containers:
+        - env:
+          - name: url
+            value: http://ghost.104.248.100.26.nip.io
+          - name: database__client
+            value: mysql
+          - name: database__connection__host
+            value: mysql
+          - name: database__connection__user
+            valueFrom:
+              secretKeyRef:
+                key: mysql-user
+                name: ghost-mysql
+          - name: database__connection__password
+            valueFrom:
+              secretKeyRef:
+                key: mysql-password
+                name: ghost-mysql
+          - name: database__connection__database
+            valueFrom:
+              secretKeyRef:
+                key: mysql-database
+                name: ghost-mysql
+          image: ghost:5
+          imagePullPolicy: IfNotPresent
+          name: ghost
+          ports:
+          - containerPort: 2368
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 768Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/ghost/content
+            name: content
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1000
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: content
+          persistentVolumeClaim:
+            claimName: ghost-content
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-04T20:58:41Z"
+      lastUpdateTime: "2026-03-04T20:58:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-03-04T20:57:47Z"
+      lastUpdateTime: "2026-03-04T20:58:41Z"
+      message: ReplicaSet "ghost-685f4dff" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"mysql","namespace":"ghost"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"mysql"}},"template":{"metadata":{"labels":{"app":"mysql"}},"spec":{"containers":[{"env":[{"name":"MYSQL_ROOT_PASSWORD","valueFrom":{"secretKeyRef":{"key":"mysql-root-password","name":"ghost-mysql"}}},{"name":"MYSQL_DATABASE","valueFrom":{"secretKeyRef":{"key":"mysql-database","name":"ghost-mysql"}}},{"name":"MYSQL_USER","valueFrom":{"secretKeyRef":{"key":"mysql-user","name":"ghost-mysql"}}},{"name":"MYSQL_PASSWORD","valueFrom":{"secretKeyRef":{"key":"mysql-password","name":"ghost-mysql"}}}],"image":"mysql:8.0","name":"mysql","ports":[{"containerPort":3306}],"resources":{"limits":{"cpu":"500m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"256Mi"}},"volumeMounts":[{"mountPath":"/var/lib/mysql","name":"data"}]}],"securityContext":{"fsGroup":999},"volumes":[{"name":"data","persistentVolumeClaim":{"claimName":"mysql-data"}}]}}}}
+    creationTimestamp: "2026-03-04T20:52:50Z"
+    generation: 1
+    name: mysql
+    namespace: ghost
+    resourceVersion: "47878"
+    uid: 181d5a21-7f8d-4678-bce5-01dfd3363c74
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: mysql
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: mysql
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mysql-root-password
+                name: ghost-mysql
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: mysql-database
+                name: ghost-mysql
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: mysql-user
+                name: ghost-mysql
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mysql-password
+                name: ghost-mysql
+          image: mysql:8.0
+          imagePullPolicy: IfNotPresent
+          name: mysql
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 999
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mysql-data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-04T20:53:31Z"
+      lastUpdateTime: "2026-03-04T20:53:31Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-03-04T20:52:50Z"
+      lastUpdateTime: "2026-03-04T20:53:31Z"
+      message: ReplicaSet "mysql-54cdc4cf55" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-04T20:57:47Z"
+    generation: 1
+    labels:
+      app: ghost
+      pod-template-hash: 685f4dff
+    name: ghost-685f4dff
+    namespace: ghost
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: ghost
+      uid: 2baec4a6-934b-4829-b4f9-030b83ae6d6d
+    resourceVersion: "49014"
+    uid: 7e73c08a-4be7-47db-aace-0a8c535197e2
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ghost
+        pod-template-hash: 685f4dff
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ghost
+          pod-template-hash: 685f4dff
+      spec:
+        containers:
+        - env:
+          - name: url
+            value: http://ghost.104.248.100.26.nip.io
+          - name: database__client
+            value: mysql
+          - name: database__connection__host
+            value: mysql
+          - name: database__connection__user
+            valueFrom:
+              secretKeyRef:
+                key: mysql-user
+                name: ghost-mysql
+          - name: database__connection__password
+            valueFrom:
+              secretKeyRef:
+                key: mysql-password
+                name: ghost-mysql
+          - name: database__connection__database
+            valueFrom:
+              secretKeyRef:
+                key: mysql-database
+                name: ghost-mysql
+          image: ghost:5
+          imagePullPolicy: IfNotPresent
+          name: ghost
+          ports:
+          - containerPort: 2368
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 768Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/ghost/content
+            name: content
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1000
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: content
+          persistentVolumeClaim:
+            claimName: ghost-content
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-04T20:52:50Z"
+    generation: 1
+    labels:
+      app: mysql
+      pod-template-hash: 54cdc4cf55
+    name: mysql-54cdc4cf55
+    namespace: ghost
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: mysql
+      uid: 181d5a21-7f8d-4678-bce5-01dfd3363c74
+    resourceVersion: "47874"
+    uid: 72fa4bda-7bc9-4639-bc7b-3654329baf2c
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: mysql
+        pod-template-hash: 54cdc4cf55
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: mysql
+          pod-template-hash: 54cdc4cf55
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mysql-root-password
+                name: ghost-mysql
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: mysql-database
+                name: ghost-mysql
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: mysql-user
+                name: ghost-mysql
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mysql-password
+                name: ghost-mysql
+          image: mysql:8.0
+          imagePullPolicy: IfNotPresent
+          name: mysql
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 999
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mysql-data
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

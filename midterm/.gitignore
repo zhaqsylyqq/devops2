@@ -1,0 +1,4 @@
+cluster-backup/
+cluster-backup.tar.gz
+*.db
+*secret*.yaml
