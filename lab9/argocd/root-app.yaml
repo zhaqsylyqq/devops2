@@ -1,16 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kustomize-app
+  name: root-apps
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/zhaqsylyqq/devops2.git
     targetRevision: HEAD
-    path: lab9/kustomize/overlays/dev # Добавили lab9/
+    path: lab9/apps-of-apps # Добавили lab9/
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: argocd
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true

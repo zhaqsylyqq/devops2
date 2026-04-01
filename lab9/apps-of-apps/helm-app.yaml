@@ -6,12 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/ТВОЙ_ЮЗЕРНЕЙМ/ТВОЙ_РЕПОЗИТОРИЙ.git # Не забудь поменять!
+    repoURL: https://github.com/zhaqsylyqq/devops2.git
     targetRevision: HEAD
-    path: chart/my-app-chart # Путь к твоему главному чарту 
+    path: lab9/chart/my-app-chart # Добавили lab9/
     helm:
       valueFiles:
-        - values.yaml # Используем твой главный values.yaml [cite: 195, 330]
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: default
