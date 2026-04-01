@@ -1,0 +1,5 @@
+apiVersion: v2
+name: dependent-one
+description: First dependent chart providing UI config
+type: application
+version: 0.1.0

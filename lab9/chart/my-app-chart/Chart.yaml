@@ -1,0 +1,12 @@
+apiVersion: v2
+name: my-app-chart
+description: Helm chart for webapp with two dependencies
+type: application
+version: 0.1.0
+dependencies:
+  - name: dependent-one
+    version: 0.1.0
+    repository: file://./charts/dependent-one
+  - name: dependent-two
+    version: 0.1.0
+    repository: file://./charts/dependent-two

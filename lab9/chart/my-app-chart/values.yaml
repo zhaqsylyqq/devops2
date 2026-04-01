@@ -1,0 +1,17 @@
+# Existing webapp values
+replicaCount: 3
+image:
+  repository: nginx
+  tag: 1.25.1-alpine
+service:
+  type: ClusterIP
+  port: 80
+
+# Expressive values controlling the subcharts
+dependent-one:
+  enabled: true
+  uiTheme: "dark-mode"
+
+dependent-two:
+  enabled: true
+  apiToken: "super-secret-default-token"

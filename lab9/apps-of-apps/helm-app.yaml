@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ТВОЙ_ЮЗЕРНЕЙМ/ТВОЙ_РЕПОЗИТОРИЙ.git # Не забудь поменять!
+    targetRevision: HEAD
+    path: chart/my-app-chart # Путь к твоему главному чарту 
+    helm:
+      valueFiles:
+        - values.yaml # Используем твой главный values.yaml [cite: 195, 330]
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated: {}

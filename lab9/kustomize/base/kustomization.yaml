@@ -1,0 +1,4 @@
+resources:
+  - stateless-dep.yaml
+  - service.yaml
+  - ingress.yaml

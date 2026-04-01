@@ -1,0 +1,9 @@
+dependencies:
+- name: dependent-one
+  repository: file://./charts/dependent-one
+  version: 0.1.0
+- name: dependent-two
+  repository: file://./charts/dependent-two
+  version: 0.1.0
+digest: sha256:a06b5cd6b584458a479ff80f03ffb8ad475acf75eaf7871dc786400aba8ec94f
+generated: "2026-03-25T23:50:49.892000608+05:00"
